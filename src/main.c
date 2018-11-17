@@ -67,9 +67,9 @@ const PlugInVals default_vals = {
   0,                            /* disc layer ID */
   1000,                         /* disc coeff */
   0,                            /* rigidity coeff */
-  0,				/* rigmask layer ID */
+  0,                            /* rigmask layer ID */
   1,                            /* delta x */
-  150,				/* enl step */
+  150,                          /* enl step */
   TRUE,                         /* resize aux layers */
   TRUE,                         /* resize canvas */
   OUTPUT_TARGET_SAME_LAYER,     /* output target (same layer, new layer, new image) */
@@ -80,7 +80,7 @@ const PlugInVals default_vals = {
   FALSE,                        /* scaleback */
   SCALEBACK_MODE_LQRBACK,       /* scaleback mode */
   TRUE,                         /* no disc upon enlarging */
-  "",	                        /* pres_layer_name */
+  "",                           /* pres_layer_name */
   "",                           /* disc_layer_name */
   "",                           /* rigmask_layer_name */
   "",                           /* selected layer name */
@@ -216,19 +216,18 @@ static void query (void)
 
 #if defined(G_OS_WIN32)
   gimp_share_directory = get_gimp_share_directory_on_windows();
-#endif
-
-#if defined(G_OS_WIN32)
   gimp_plugin_domain_register (GETTEXT_PACKAGE, gimp_locale_directory());
-  help_path = g_build_filename (gimp_share_directory, PACKAGE_NAME, "help", NULL); 
-#else 
+  help_path = g_build_filename (gimp_share_directory, PACKAGE_NAME, "help", NULL);
+  g_free (gimp_share_directory);
+#else
   gimp_plugin_domain_register (GETTEXT_PACKAGE, LOCALEDIR);
   help_path = g_build_filename (PLUGIN_DATADIR, "help", NULL);
 #endif
   help_uri = g_filename_to_uri (help_path, NULL, NULL);
+  g_free (help_path);
 
-  gimp_plugin_help_register ("plug-in-lqr-help", help_uri); 
-  g_free (help_uri); 
+  gimp_plugin_help_register ("plug-in-lqr-help", help_uri);
+  g_free (help_uri);
 
   gimp_install_procedure (PLUG_IN_NAME,
                           N_("scaling which keeps layer features (or removes them)"),
@@ -338,8 +337,8 @@ run (const gchar * name,
                     ui_vals = default_ui_vals;
                     col_vals = default_col_vals;
                     break;
-		  case RESPONSE_INTERACTIVE:
-		    dialog_I_resp = dialog_I (&image_vals, &drawable_vals,
+                  case RESPONSE_INTERACTIVE:
+                    dialog_I_resp = dialog_I (&image_vals, &drawable_vals,
                                 &vals, &ui_vals, &col_vals, &dialog_vals);
                     switch (dialog_I_resp)
                       {
@@ -358,7 +357,7 @@ run (const gchar * name,
                           break;
                       }
                     break;
-		  case RESPONSE_WORK_ON_AUX_LAYER:
+                  case RESPONSE_WORK_ON_AUX_LAYER:
                     dialog_aux_resp = dialog_aux (&image_vals, &drawable_vals,
                         &vals, &ui_vals, &col_vals, &dialog_vals);
                     switch(dialog_aux_resp)
@@ -647,7 +646,7 @@ get_gimp_share_directory_on_windows()
 
   if (!found)
     {
-      g_message("GIMP share directory not found, resorting to default\n"); 
+      g_message("GIMP share directory not found, resorting to default\n");
       ret = g_strdup_printf("C:\\Program Files\\GIMP-2.0\\share");
       return ret;
     }
@@ -665,7 +664,7 @@ get_gimp_share_directory_on_windows()
   g_strfreev(tokens2);
   if (!g_file_test(ret, G_FILE_TEST_IS_DIR))
     {
-      g_message("GIMP share directory found but test for it failed, resorting to default\n"); 
+      g_message("GIMP share directory found but test for it failed, resorting to default\n");
       g_free(ret);
       ret = g_strdup_printf("C:\\Program Files\\GIMP-2.0\\share");
     }
