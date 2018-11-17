@@ -148,18 +148,19 @@ fi
 
 AC_CONFIG_FILES([
 Makefile
-src/Makefile
-gap/Makefile
 batch/Makefile
-po/Makefile.in
-help/Makefile
-help/en/Makefile
-help/en/images/Makefile
-help/it/Makefile
-help/it/images/Makefile
-help/ru/Makefile
-help/ru/images/Makefile
+gap/Makefile
 help/css/Makefile
+help/en/images/Makefile
+help/en/Makefile
+help/es_ES/Makefile
+help/it/images/Makefile
+help/it/Makefile
+help/Makefile
+help/ru/images/Makefile
+help/ru/Makefile
+po/Makefile.in
+src/Makefile
 ])
 
 AC_OUTPUT
